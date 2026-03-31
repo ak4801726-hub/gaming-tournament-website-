@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gaming Tournament</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+    }
+    header {
+      background: #020617;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #38bdf8;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background: #020617;
+      padding: 10px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      background: #38bdf8;
+      color: black;
+    }
+    section {
+      padding: 40px;
+      text-align: center;
+    }
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      margin: 20px auto;
+      width: 80%;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(56,189,248,0.3);
+    }
+    input, select, button {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background: #38bdf8;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    table {
+      width: 80%;
+      margin: auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #334155;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex; align-items:center; justify-content:center; gap:12px;">
+    <!-- Esports Shield Logo -->
+    <div style="width:50px;height:50px;filter: drop-shadow(0 0 8px #38bdf8);">
+      <svg viewBox="0 0 100 100" width="50" height="50">
+        <polygon points="50,5 90,20 85,70 50,95 15,70 10,20" fill="#0ea5e9"/>
+        <polygon points="50,15 80,28 76,66 50,85 24,66 20,28" fill="#020617"/>
+        <text x="50%" y="58%" text-anchor="middle" fill="#38bdf8" font-size="28" font-family="Arial" dy=".3em">GX</text>
+      </svg>
+    </div>
+    <span style="font-size:26px;font-weight:bold;color:#38bdf8;letter-spacing:2px;">GameX Esports</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#register">Register</a>
+  <a href="#leaderboard">Leaderboard</a>
+  <a href="#schedule">Schedule</a>
+</nav>
+
+<section id="home">
+  <div class="card">
+    <h1>Welcome to the Ultimate Gaming Tournament</h1>
+    <p>Join, compete and win exciting prizes!</p>
+  </div>
+</section>
+
+<section id="register">
+  <div class="card">
+    <h2>Register Now</h2>
+    <input type="text" id="name" placeholder="Player Name"><br>
+    <input type="email" id="email" placeholder="Email"><br>
+
+    <select id="game">
+      <option value="">Select Game</option>
+      <option value="Minecraft">Minecraft</option>
+      <option value="Free Fire Max">Free Fire Max</option>
+    </select><br>
+
+    <button onclick="sendToDiscord()">Submit</button>
+    <p id="status"></p>
+  </div>
+</section>
+
+<section id="leaderboard">
+  <div class="card">
+    <h2>Leaderboard</h2>
+    <table>
+      <tr><th>Rank</th><th>Player</th><th>Points</th></tr>
+      <tr><td>1</td><td>PlayerX</td><td>120</td></tr>
+      <tr><td>2</td><td>GamerPro</td><td>100</td></tr>
+      <tr><td>3</td><td>NoobMaster</td><td>80</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="card">
+    <h2>Match Schedule</h2>
+    <p>Round 1: 10 April</p>
+    <p>Round 2: 15 April</p>
+    <p>Final: 20 April</p>
+  </div>
+</section>
+
+<script>
+function sendToDiscord() {
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const game = document.getElementById('game').value;
+  const status = document.getElementById('status');
+
+  if (!name || !email || !game) {
+    status.innerText = "Please fill all fields";
+    return;
+  }
+
+  const webhookURL = "https://discordapp.com/api/webhooks/1488204006181437532/ZYw8DJ-lS_xDgjVhUgVRdf_Npfrzg9rr7sAWn3cSB6mBUa_mUrFBJwaNzSZbsSZgtYH8";
+
+  const data = {
+    content: `🎮 New Tournament Registration:\n👤 Name: ${name}\n📧 Email: ${email}\n🎯 Game: ${game}`
+  };
+
+  fetch(webhookURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    status.innerText = "✅ Registered & sent to Discord!";
+  })
+  .catch(() => {
+    status.innerText = "❌ Error sending to Discord";
+  });
+}
+</script>
+
+</body>
+</html>
